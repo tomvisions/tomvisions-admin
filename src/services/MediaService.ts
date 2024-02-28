@@ -17,7 +17,8 @@ export async function apiGetSalesDashboardData<
 async function formatParams(data:TableQueries) {
     
     return [data.pageSize ?? 10, (data.sort?.key ? data.sort?.key : 'name'), (data.sort?.order ? data.sort?.order :'asc'), data.query].filter((param) => {
-     
+        console.log('the param');
+        console.log(param);
         if (param) {
             return param;
         } 
@@ -25,6 +26,7 @@ async function formatParams(data:TableQueries) {
 }
 
 export const URL = 'http://127.0.0.1:9000/api/v1/media'
+//export const URL = 'https://api-stage.tomvisions.com/api/v1/media'
 export async function apiGetGalleries<T, U extends Record<string, unknown>>(
     data: TableQueries
 ) {
