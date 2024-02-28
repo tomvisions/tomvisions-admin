@@ -55,9 +55,14 @@ const OrganizationFields = (props: OrganizationFieldsProps) => {
                                     form={form}
                                     options={tagList}
                                     value={values.tags}
-                                    onChange={(option) =>
+                                    onChange={(option) => {
+                                        console.log('option');
+                                        console.log(option)
+                                        console.log('field.name');
+                                        console.log(field.name);
+
                                         form.setFieldValue(field.name, option)
-                                    }
+                                    }}
                                 />
                             )}
                         </Field>

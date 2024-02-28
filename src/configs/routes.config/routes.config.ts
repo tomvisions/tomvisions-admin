@@ -12,33 +12,6 @@ export const protectedRoutes = [
         authority: [],
     },
     {
-        key: 'userList',
-        path: '/user',
-        component: lazy(() => import('@/views/UserList')),
-        authority: [],
-    },
-    {
-        key: 'userEdit',
-        path: '/user/edit/:userId',
-        component: lazy(() => import('@/views/UserEdit')),
-        authority: [],
-    },
-    {
-        key: 'usherGroupList',
-        path: '/usher-group',
-        component: lazy(() => import('@/views/UsherGroupList')),
-        authority: [],
-    },
-    {
-        key: 'usherGroupEdit',
-        path: `/usher-group/edit/:userGroupId`,
-        component: lazy(() => import('@/views/UsherGroupEdit')),
-        authority: [],
-        meta: {
-            header: 'Edit Gallery',
-        },
-    },
-    {
         key: 'gallerList',
         path: '/gallery',
         component: lazy(() => import('@/views/GalleryList')),

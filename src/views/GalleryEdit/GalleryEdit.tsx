@@ -5,7 +5,6 @@ import toast from '@/components/ui/toast'
 import Notification from '@/components/ui/Notification'
 import reducer, {
     getGallery,
-    getUsherGroupList,
     getTagsList,
     updateGallery,
     deleteProduct,
@@ -50,8 +49,8 @@ const GalleryEdit = () => {
         dispatch(getGallery(data))
     }
 
-    const fetchDataUsherGroup = () => {
-        dispatch(getUsherGroupList({ pageIndex, pageSize, sort, query}))
+    const fetchDataTag = () => {
+        dispatch(getTagsList({ pageIndex, pageSize, sort, query}))
     }
 
     const handleFormSubmit = async (
@@ -105,9 +104,13 @@ const GalleryEdit = () => {
     }, [location.pathname])
 
     useEffect(() => {
-        fetchDataUsherGroup()
+        fetchDataTag()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageIndex, pageSize, sort])
+
+    console.log('gallery')
+    console.log(galleryData);
+
     return (
         <>
             <Loading loading={loading}>
