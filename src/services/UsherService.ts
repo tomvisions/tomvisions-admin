@@ -1,14 +1,6 @@
 import { TableQueries } from '@/@types/common'
 import ApiService from './ApiService'
 
-export async function apiGetSalesDashboardData<
-    T extends Record<string, unknown>
->() {
-    return ApiService.fetchData<T>({
-        url: '/sales/dashboard',
-        method: 'post',
-    })
-}
 
 /**
  * Formating the params
@@ -17,14 +9,54 @@ export async function apiGetSalesDashboardData<
 async function formatParams(data:TableQueries) {
     
     return [data.pageSize ?? 10, (data.sort?.key ? data.sort?.key : 'name'), (data.sort?.order ? data.sort?.order :'asc'), data.query].filter((param) => {
-     
+  
         if (param) {
             return param;
         } 
    });
 }
 
-export const URL = 'http://127.0.0.1:9000/api/v1/media'
+export const URL = 'http://127.0.0.1:3500/usher-group'
+export async function apiGetUsherGroups<T, U extends Record<string, unknown>>(
+    data: TableQueries
+) {
+    const params = await formatParams(data);
+   
+    console.log(`${URL}/page-index/${data['pageIndex']}/page-size/${params.join('/')}`)
+    return ApiService.fetchData<T>({
+        url: `${URL}/page-index/${data['pageIndex']}/page-size/${params.join('/')}`,
+        method: 'get',
+        data,
+    })
+}
+
+export async function getUsherGroupById<T, U extends Record<string, unknown>>(
+    params: U
+) {
+    console.log(`${URL}/id/${params['id']}`);
+    console.log(await ApiService.fetchData<T>({
+        url: `${URL}/id/${params['id']}`,
+        method: 'get',
+        params,
+    }));
+    return ApiService.fetchData<T>({
+        url: `${URL}/id/${params['id']}`,
+        method: 'get',
+        params,
+    })
+}
+
+export async function getUsherGroupByLabelValue<T, U extends Record<string, unknown>>(
+    params: U
+) {
+    return ApiService.fetchData<T>({
+        url: `${URL}/label-value`,
+        method: 'get',
+        params,
+    })
+}
+
+
 export async function apiGetGalleries<T, U extends Record<string, unknown>>(
     data: TableQueries
 ) {
@@ -49,21 +81,6 @@ export async function   apiCreateTag<T, U extends Record<string, unknown>>(
         data,
     })
 }
-
-export async function apiGetImagesByGalleryId<T, U extends Record<string, unknown>>(
-    data: TableQueries
-) {
-   const params = await formatParams(data); 
-//   mediaRouter.get("/id/:id/image/:pageIndex?/:pageSize?/:sort?/:order?", ImageController.apiGetAllImagesByGallery);
-    console.log(`${URL}/id/${data.data.id}/image/${data.pageIndex}/${params.join('/')}`);
-
-   return ApiService.fetchData<T>({
-        url: `${URL}/id/${data.data.id}/image/${data.pageIndex}/${params.join('/')}`,
-        method: 'get',
-    })
-}
-
-
 
 
 export async function apiGetImages<T, U extends Record<string, unknown>>(

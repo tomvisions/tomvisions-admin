@@ -4,10 +4,10 @@ import DoubleSidedImage from '@/components/shared/DoubleSidedImage'
 import toast from '@/components/ui/toast'
 import Notification from '@/components/ui/Notification'
 import reducer, {
-    getGallery,
+    getUsers,
+    addUser,
     getUsherGroupList,
-    getTagsList,
-    updateGallery,
+    updateUser,
     deleteProduct,
     useAppSelector,
     useAppDispatch,
@@ -15,56 +15,67 @@ import reducer, {
 import { injectReducer } from '@/store'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import GalleryForm, {
+import UserForm, {
     FormModel,
     SetSubmitting,
     OnDeleteCallback,
-} from '@/views/GalleryForm'
+} from '@/views/UserForm'
 
 import isEmpty from 'lodash/isEmpty'
 
-injectReducer('GalleryEdit', reducer)
+injectReducer('UserEdit', reducer)
 
-const GalleryEdit = () => {
+const UserEdit = () => {
     const dispatch = useAppDispatch()
 
     const { pageIndex, pageSize, sort, query, total } = useAppSelector(
-        (state) => state.GalleryEdit.data.tableData
+        (state) => state.UserEdit.data.tableData
     )
 
     const location = useLocation()
     const navigate = useNavigate()
 
-    const galleryData = useAppSelector(
-        (state) => state.GalleryEdit.data.galleryData
+    const userEdit = useAppSelector(
+        (state) => state.UserEdit.data.userEditData
     )
 
-    const tagList = useAppSelector(
-        (state) => state.GalleryEdit.data.tagList
+    const usherGroupList = useAppSelector(
+        (state) => state.UserEdit.data.usherGroupList
     )
+
     const loading = useAppSelector(
-        (state) => state.GalleryEdit.data.loading
+        (state) => state.UserEdit.data.loading
     )
 
     const fetchData = (data: { id: string }) => {
-        dispatch(getGallery(data))
+        dispatch(getUsers(data))
     }
 
     const fetchDataUsherGroup = () => {
         dispatch(getUsherGroupList({ pageIndex, pageSize, sort, query}))
     }
 
+
     const handleFormSubmit = async (
         values: FormModel,
-        setSubmitting: SetSubmitting
+        setSubmitting: SetSubmitting,
+        type: string
     ) => {
         setSubmitting(true)
-        const success = await updateGallery(values)
-        setSubmitting(false)
-        if (success) {
-            popNotification('updated')
+        if (type === 'edit') {
+            const success = await updateUser(values)
+            setSubmitting(false)
+            if (success) {
+                popNotification('updated')
+            }
+        } else {
+            const success = await addUser(values)
+                setSubmitting(false)
+                if (success) {
+                    popNotification('created')
+                }
         }
-        navigate('/gallery')
+        navigate('/user')
     }
 
     const handleDiscard = () => {
@@ -73,7 +84,7 @@ const GalleryEdit = () => {
 
     const handleDelete = async (setDialogOpen: OnDeleteCallback) => {
         setDialogOpen(false)
-        const success = await deleteProduct({ id: galleryData.id })
+        const success = await deleteProduct({ id: userEdit.id })
         if (success) {
             popNotification('deleted')
         }
@@ -103,20 +114,22 @@ const GalleryEdit = () => {
         fetchData(requestParam)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location.pathname])
-
     useEffect(() => {
         fetchDataUsherGroup()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageIndex, pageSize, sort])
+
+    console.log('user')
+    console.log(userEdit);
     return (
         <>
             <Loading loading={loading}>
-                {!isEmpty(galleryData) && (
+                {!isEmpty(userEdit) && (
                     <>
-                        <GalleryForm
+                        <UserForm
                             type="edit"
-                            initialData={galleryData}
-                            tagList={tagList}
+                            initialData={userEdit}
+                            usherGroupList={usherGroupList}
                             onFormSubmit={handleFormSubmit}
                             onDiscard={handleDiscard}
                             onDelete={handleDelete}
@@ -124,7 +137,7 @@ const GalleryEdit = () => {
                     </>
                 )}
             </Loading>
-            {!loading && isEmpty(galleryData) && (
+            {!loading && isEmpty(userEdit) && (
                 <div className="h-full flex flex-col items-center justify-center">
                     <DoubleSidedImage
                         src="/img/others/img-2.png"
@@ -138,4 +151,4 @@ const GalleryEdit = () => {
     )
 }
 
-export default GalleryEdit
+export default UserEdit

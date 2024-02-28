@@ -4,8 +4,7 @@ import DoubleSidedImage from '@/components/shared/DoubleSidedImage'
 import toast from '@/components/ui/toast'
 import Notification from '@/components/ui/Notification'
 import reducer, {
-    getGallery,
-    getUsherGroupList,
+    getUsherGroup,
     getTagsList,
     updateGallery,
     deleteProduct,
@@ -15,17 +14,17 @@ import reducer, {
 import { injectReducer } from '@/store'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import GalleryForm, {
+import UsherGroupForm, {
     FormModel,
     SetSubmitting,
     OnDeleteCallback,
-} from '@/views/GalleryForm'
+} from '@/views/UsherGroupForm'
 
 import isEmpty from 'lodash/isEmpty'
 
-injectReducer('GalleryEdit', reducer)
+injectReducer('UsherGroupEdit', reducer)
 
-const GalleryEdit = () => {
+const UsherGroupEdit = () => {
     const dispatch = useAppDispatch()
 
     const { pageIndex, pageSize, sort, query, total } = useAppSelector(
@@ -47,11 +46,7 @@ const GalleryEdit = () => {
     )
 
     const fetchData = (data: { id: string }) => {
-        dispatch(getGallery(data))
-    }
-
-    const fetchDataUsherGroup = () => {
-        dispatch(getUsherGroupList({ pageIndex, pageSize, sort, query}))
+        dispatch(getUsherGroup(data))
     }
 
     const handleFormSubmit = async (
@@ -104,19 +99,14 @@ const GalleryEdit = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location.pathname])
 
-    useEffect(() => {
-        fetchDataUsherGroup()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pageIndex, pageSize, sort])
     return (
         <>
             <Loading loading={loading}>
                 {!isEmpty(galleryData) && (
                     <>
-                        <GalleryForm
+                        <UsherGroupForm
                             type="edit"
                             initialData={galleryData}
-                            tagList={tagList}
                             onFormSubmit={handleFormSubmit}
                             onDiscard={handleDiscard}
                             onDelete={handleDelete}
@@ -138,4 +128,4 @@ const GalleryEdit = () => {
     )
 }
 
-export default GalleryEdit
+export default UsherGroupEdit
