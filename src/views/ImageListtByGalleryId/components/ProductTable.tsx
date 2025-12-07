@@ -214,7 +214,7 @@ const ProductTable = () => {
     const imageRequest = (key:any, edits:any) => {
 
         const config = JSON.stringify({
-        bucket: "tomvisions-original-images",
+        bucket: "images.tomvisions.com",
         key: key,
         edits: edits
     })
@@ -222,7 +222,8 @@ const ProductTable = () => {
     return `${Buffer.from(config).toString('base64')}`;
     }
 
-    const formatImage = (key:any) => {          
+    const formatImage = (key:any) => {
+            console.log(key)
                 const signatureSmall = imageRequest(key, {
                     "resize": {
                         "width": 200,
@@ -231,7 +232,7 @@ const ProductTable = () => {
                     }
                 });
     
-                return `https://d34wc8uzk8vrsx.cloudfront.net/${signatureSmall}`; 
+                return `https://images.tomvisions.com/${signatureSmall}`;
         
         }
 

@@ -70,7 +70,7 @@ const BasicInformationFields = (props: BasicInformationFields) => {
                 />
             </FormItem>
             <FormItem
-                label="Gallery ID"
+                label="Image ID"
                 invalid={(errors.gallery && touched.gallery) as boolean}
                 errorMessage={errors.gallery}
             >
@@ -84,7 +84,7 @@ const BasicInformationFields = (props: BasicInformationFields) => {
                 />
             </FormItem>
             <FormItem
-                label="Gallery Name"
+                label="Image Name"
                 invalid={(errors.gallery && touched.gallery) as boolean}
                 errorMessage={errors.gallery}
             >

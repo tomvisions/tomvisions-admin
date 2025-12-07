@@ -25,7 +25,7 @@ async function formatParams(data:TableQueries) {
    });
 }
 
-export const URL = 'http://127.0.0.1:9000/api/v1/media'
+export const URL = 'http://127.0.0.1:9000/media'
 //export const URL = 'https://api-stage.tomvisions.com/api/v1/media'
 export async function apiGetGalleries<T, U extends Record<string, unknown>>(
     data: TableQueries
